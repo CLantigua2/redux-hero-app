@@ -1,3 +1,6 @@
+import { SEARCH_INPUT_CHANGED } from '../Actions';
+import { combineReducers } from 'redux';
+
 import Char from './hero';
 
 const initialState = {
@@ -5,13 +8,13 @@ const initialState = {
 	searchTerm: ''
 };
 
-export default function char(state = initialState, action) {
+const charReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case 'SEARCH_INPUT_CHANGED':
+		case SEARCH_INPUT_CHANGED:
 			const { searchTerm } = action.payload;
 			return {
 				...state,
-				searchTerm: searchTerm,
+				searchTerm,
 				char: searchTerm
 					? Char.filter((char) => char.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
 					: Char
@@ -19,4 +22,10 @@ export default function char(state = initialState, action) {
 		default:
 			return state;
 	}
-}
+};
+
+const AppState = combineReducers({
+	charReducer
+});
+
+export default AppState;
